@@ -11,6 +11,10 @@ exports.Comment = async (req, res, next) => {
 
     let post = await PostModel.findById(_id)
 
+    res.send({
+      message: comment
+    })
+
     post.comment.push(comment)
 
     await post.save();
