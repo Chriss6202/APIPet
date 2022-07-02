@@ -1,11 +1,11 @@
 const PostModel = require("../models/post");
 const CommentModel = require("../models/comment");
+const SurveyModel = require("../models/survey");
 
 exports.Comment = async (req, res, next) => {
   try {
     let _id = req.params.id
     let {description} = req.body
-
 
     let comment = await CommentModel.create({ description } )
 
@@ -20,7 +20,31 @@ exports.Comment = async (req, res, next) => {
   } catch(err) {
     next(err);
   }
+};
 
+exports.Survey = async (req, res, next) => {
+  try {
+    let _id = req.params.id
+    let {fullname, work, number, email, reason} = req.body
+
+    let survey = await SurveyModel.create({ fullname,
+    work,
+    number,
+    email,
+    reason
+    })
+
+    let post = await PostModel.findById(_id)
+
+    post.survey.push(survey)
+
+    await post.save();
+    res.send({
+      message: "Success"
+    })
+  } catch(err) {
+    next(err);
+  }
 };
 
 exports.getAll = async (req, res, next) => {

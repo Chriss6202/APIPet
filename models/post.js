@@ -1,50 +1,7 @@
 
 const mongoose = require("mongoose");
-const { boolean } = require("webidl-conversions");
 
 const Schema = mongoose.Schema;
-
-const CommentSchema = new Schema(
-  {
-    description: {
-      type: String,
-      required: true,
-    },
-   /*creator: {
-      type: UserSchema,
-      required: true,
-    },*/
-  }
-);
-
-const SurveySchema = new Schema(
-  {
-    fullname: {
-      type: String,
-      required: true,
-    },
-    Work: {
-      type: String,
-      required: true,
-    },
-    number: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    reason: {
-      type: String,
-      required: true,
-    },
-  /* creator: {
-      type: UserSchema,
-      required: true,
-    },*/
-  }
-);
 
 const PostSchema = new Schema(
   {
@@ -71,15 +28,11 @@ const PostSchema = new Schema(
       type: Array,
     },
     survey: {
-      type: Schema.Types.ObjectId, ref: 'survey',
+      type: Array,
     },
     favorite: {
       type: Boolean,
     },
-   /* creator: {
-      type: UserSchema,
-      required: true,
-    },*/
   },
   { timestamps: true }
 );
