@@ -9,7 +9,7 @@ exports.Comment = async (req, res, next) => {
 
     let comment = await CommentModel.create({ description } )
 
-    let post = await PostModel.findById(_id)
+    let post = await PostModel.findById({_id})
 
     res.send ({ message : post})
 
