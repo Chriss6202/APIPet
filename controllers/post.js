@@ -106,7 +106,7 @@ exports.getAll = async (req, res, next) => {
   exports.deletePost = async (req, res, next) => {
     try {
       let _id = req.params.id;
-      let { deletedCount } = await PostModel.findByidAndRemove({ _id });
+      let { deletedCount } = await PostModel.findByIdAndRemove({ _id });
       res.send({
         message: deletedCount
       })
