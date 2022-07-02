@@ -5,7 +5,7 @@ const SurveyModel = require("../models/survey");
 exports.Comment = async (req, res, next) => {
   try {
     let _id = req.params.id
-    let description = req.body
+    let {description} = req.body
 
     let comment = await CommentModel.create({ description } )
 
@@ -126,7 +126,7 @@ exports.getAll = async (req, res, next) => {
     try {
       let _id = req.params.id;
       let { Newtitle, Newdescription, Newbreed, Newspecies, Newimage} = req.body
-      let post = await PostModel.findByid({_id});
+      let post = await PostModel.findById({_id});
 
       post.title = Newtitle;
       post.description = Newdescription;
