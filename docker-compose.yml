@@ -1,0 +1,9 @@
+version: '2.0'
+services:
+  app:
+    container_name: petbookapi
+    restart: always
+    image: petbookapi
+    build: .
+    ports:
+      - "3000:3000"
