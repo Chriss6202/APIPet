@@ -11,8 +11,6 @@ exports.Comment = async (req, res, next) => {
 
     let post = await PostModel.findById({_id})
 
-    res.send ({ message : post})
-
     post.comment.push(comment)
 
     await post.save();
@@ -36,7 +34,7 @@ exports.Survey = async (req, res, next) => {
     reason
     })
 
-    let post = await PostModel.findById(_id)
+    let post = await PostModel.findById({_id})
 
     post.survey.push(survey)
 
