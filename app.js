@@ -3,7 +3,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var helmet = require("helmet");
-var passport = require("passport");
+var passport = require("passport")
+require("./auth/auth");;
 require("./database/config");
 
 var postRouter = require("./routers/post")
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(authRouter);
 app.use("/auth", userRouter);
 app.use("/post", postRouter);
 

@@ -61,8 +61,11 @@ exports.getAll = async (req, res, next) => {
 
   exports.getWanted = async (req, res, next) => {
     try {
-      let title = req.params.title;
-      let posts = await PostModel.find({ title });
+      let {findtitle, findbreed, findspecies} = req.body;
+      let posts = await PostModel.find({$or:[{title: findtitle}, 
+      {breed: findbreed},
+      {species: findspecies}
+      ]});
       res.send({
         count: posts.length,
         posts,
@@ -75,7 +78,7 @@ exports.getAll = async (req, res, next) => {
   exports.getOwned = async (req, res, next) => {
     try {
       let {ltitle, lbreed} = req.body
-      let posts = await PostModel.find({$or:[{title: ltitle}, {breed: lbreed}] });
+      let posts = await PostModel.find({$or:[{title: ltitle}, {breed: lbreed}]});
       res.send({
         count: posts.length,
         posts,
