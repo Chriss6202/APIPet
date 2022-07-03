@@ -1,5 +1,5 @@
 const UserModel = require("../models/user");
-var express = require("express");
+
 
 exports.SignIn = async (req, res, next) => {
   try {
@@ -24,10 +24,12 @@ exports.whoAmI = async (req, res, next) => {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
   
-      res.send ({
-        message: JSON.parse(jsonPayload)
-      }) 
+      return JSON.parse(jsonPayload);
   };
+
+  res.send ({
+    message: parseJwt(token)
+  })
 
   } catch (err) {
     next(err);

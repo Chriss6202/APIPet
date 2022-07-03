@@ -1,4 +1,4 @@
-var { SignIn } = require("../controllers/user");
+var { SignIn, whoAmI } = require("../controllers/user");
 var express = require("express");
 var jwt = require("jsonwebtoken");
 var UserModel = require("../models/user");
@@ -28,4 +28,6 @@ router.post("/login", async (req, res, next) => {
     next(err);
   }
 });
+
+router.get("/whoami", whoAmI)
 module.exports = router;
