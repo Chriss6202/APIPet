@@ -18,8 +18,8 @@ exports.SignIn = async (req, res, next) => {
 
 exports.whoAmI = async (req, res, next) => {
   try{
-    
-    res.send({ message: Headers.get()})
+    token1 = req.token
+    res.send({ message: token1})
     function parseJwt (token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
