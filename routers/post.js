@@ -11,9 +11,10 @@ var {
 } = require("../controllers/post");
 var express = require("express");
 var router = express.Router();
+var passport = require("passport")
 
 router.patch("/fav/:id", Favorite)
-router.get("/all", getAll);
+router.get("/all", passport.authenticate("jwt", { session: false}), getAll);
 router.get("/wanted/:title", getWanted);
 router.get("/owned", getOwned);
 router.post("/create", createPost);
