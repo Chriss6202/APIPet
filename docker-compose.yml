@@ -1,9 +1,9 @@
 version: '2.0'
 services:
   app:
-    container_name: apipet
+    container_name: todo-app
     restart: always
-    image: apipet
+    image: todo-app
     build: .
     ports:
       - "3000:3000"
