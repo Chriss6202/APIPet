@@ -20,6 +20,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(authRouter);
-app.use("/post", postRouter);
+app.use("/post", passport.authenticate("jwt", { session: false}), postRouter);
 
 module.exports = app;
