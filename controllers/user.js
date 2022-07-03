@@ -1,6 +1,7 @@
 const UserModel = require("../models/user");
 
 
+
 exports.SignIn = async (req, res, next) => {
   try {
     let { username, password } = req.body;
@@ -17,6 +18,8 @@ exports.SignIn = async (req, res, next) => {
 
 exports.whoAmI = async (req, res, next) => {
   try{
+    
+    res.send({ message: Headers.get()})
     function parseJwt (token) {
       var base64Url = token.split('.')[1];
       var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
