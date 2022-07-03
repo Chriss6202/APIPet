@@ -29,5 +29,5 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/whoami", whoAmI)
+router.get("/whoami/:token", whoAmI)
 module.exports = router;
