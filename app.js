@@ -8,7 +8,7 @@ require("./auth/auth");;
 require("./database/config");
 
 var postRouter = require("./routers/post")
-var userRouter = require("./routers/user")
+
 
 var app = express();
 
