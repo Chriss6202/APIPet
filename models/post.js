@@ -34,6 +34,9 @@ const PostSchema = new Schema(
     survey: {
       type: Array,
     },
+    favorite: {
+      type: Array
+    }
   },
   { timestamps: true }
 );

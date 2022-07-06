@@ -140,7 +140,7 @@ exports.getAll = async (req, res, next) => {
       else
       {
         res.status(400).send({
-          message: "You can't delete post that aren't yours",
+          message: "You can't delete posts that aren't yours",
         }); 
       }
     }catch (err) {
@@ -152,20 +152,39 @@ exports.getAll = async (req, res, next) => {
   exports.updatePost = async (req, res, next) => {
     try {
       let _id = req.params.id;
-      let { Newtitle, Newdescription, Newbreed, Newspecies, Newimage} = req.body
-      let post = await PostModel.findById({_id});
+      let post = await PostModel.findById ({ _id })
+      if (!post) {
+        res.status(400).send({
+          message: "Post hasn't been found",
+        }); 
+      }
+      let token = req.headers.authorization.replace('Bearer ', '');
+      let postUser = post.user
+      let userToCompare = getusername(token)
+      let isMine = compareUsername(postUser, userToCompare)
+      if (isMine == true)
+      {
+        let { Newtitle, Newdescription, Newbreed, Newspecies, Newimage} = req.body
 
-      post.title = Newtitle;
-      post.description = Newdescription;
-      post.breed = Newbreed;
-      post.species = Newspecies;
-      post.image = Newimage;
+        post.title = Newtitle;
+        post.description = Newdescription;
+        post.breed = Newbreed;
+        post.species = Newspecies;
+        post.image = Newimage;
 
-      await post.save();
+        await post.save();
 
-      res.send({
-        message: "Succesfully updated",
-      });
+        res.send({
+          message: "Succesfully updated",
+        });
+      }
+      else
+      {
+        res.status(400).send({
+          message: "You can't update posts that aren't yours",
+        }); 
+      }
+      
     } catch (err) {
       next(err);
     }
@@ -174,10 +193,18 @@ exports.getAll = async (req, res, next) => {
   exports.Favorite = async (req, res, next) => {
     try {
       let _id = req.params.id;
-
+      let token = req.headers.authorization.replace('Bearer ', '');
+      let user = getusername(token)
       let post = await PostModel.findById(_id);
-
-      post.favorite = !post.favorite;
+      let favsArray = post.favorite.indexOf(user)
+      if (favsArray > -1)
+      {
+        post.favorite.splice(favsArray)
+      }
+      else
+      {
+        post.favorite.push(user)
+      }
 
       await post.save();
 
