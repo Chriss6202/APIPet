@@ -97,6 +97,18 @@ exports.getAll = async (req, res, next) => {
     }
   };
 
+  exports.getFavs = async (req, res, next) => {
+    try {
+      let token = req.headers.authorization.replace('Bearer ', '');
+      let user = getusername(token)
+      let posts = await PostModel.find({favorite: user});
+      res.send({posts})
+      
+    } catch (err) {
+      next(err);
+    }
+  };
+
   exports.createPost = async (req, res, next) => {
     try {
       let token = req.headers.authorization.replace('Bearer ', '');
