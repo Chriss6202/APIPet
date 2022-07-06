@@ -8,6 +8,7 @@ var {
     Favorite,
     Comment,
     Survey,
+    getFavs,
 } = require("../controllers/post");
 var express = require("express");
 var router = express.Router();
@@ -17,6 +18,7 @@ router.patch("/fav/:id", Favorite)
 router.get("/all", getAll);
 router.get("/wanted/:title", getWanted);
 router.get("/owned", getOwned);
+router.get("/favorites", getFavs)
 router.post("/create", createPost);
 router.put("/update/:id", updatePost);
 router.delete("/delete/:id", deletePost);
