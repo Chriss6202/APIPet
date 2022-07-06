@@ -24,14 +24,15 @@ const PostSchema = new Schema(
     image: {
       type: String,
     },
+    user: {
+      type: String,
+      required: true
+    },
     comment: {
       type: Array,
     },
     survey: {
       type: Array,
-    },
-    favorite: {
-      type: Boolean,
     },
   },
   { timestamps: true }

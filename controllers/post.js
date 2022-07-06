@@ -1,6 +1,7 @@
 const PostModel = require("../models/post");
 const CommentModel = require("../models/comment");
 const SurveyModel = require("../models/survey");
+const { parseJWT } = require("../utils/getuser")
 
 exports.Comment = async (req, res, next) => {
   try {
@@ -90,17 +91,17 @@ exports.getAll = async (req, res, next) => {
 
   exports.createPost = async (req, res, next) => {
     try {
-      let hi = req.headers.authorization.replace('Bearer ', '');
-      res.send({message: hi}) 
+      let token = req.headers.authorization.replace('Bearer ', '');
+      let user = parseJWT(token)
       let {title, description, breed, species, image} = req.body;
-      let favorite = false;
+
       let newPost = await PostModel.create({
         title,
         description,
         breed,
         species,
         image,
-        favorite,
+        user
       });
       res.send({ newPost });
     } catch (err) {

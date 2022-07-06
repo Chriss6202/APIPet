@@ -1,5 +1,6 @@
 const UserModel = require("../models/user");
-const { parseJwt } = require("./auth");
+const { parseJwt } = require("../utils/getuser");
+
 
 
 
