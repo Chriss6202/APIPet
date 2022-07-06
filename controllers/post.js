@@ -197,9 +197,10 @@ exports.getAll = async (req, res, next) => {
       let user = getusername(token)
       let post = await PostModel.findById(_id);
       let favsArray = post.favorite.indexOf(user)
+      res.send(favsArray)
       if (favsArray > -1)
       {
-        post.favorite.splice(favsArray)
+        post.favorite.splice(favsArray, 1)
       }
       else
       {
