@@ -1,7 +1,7 @@
 const PostModel = require("../models/post");
 const CommentModel = require("../models/comment");
 const SurveyModel = require("../models/survey");
-const { parseJwt } = require("../utils/getuser");
+const { getusername } = require("../utils/getuser");
 
 exports.Comment = async (req, res, next) => {
   try {
@@ -92,8 +92,7 @@ exports.getAll = async (req, res, next) => {
   exports.createPost = async (req, res, next) => {
     try {
       let token = req.headers.authorization.replace('Bearer ', '');
-      let user1 = parseJwt(token)
-      let user = user1.user.username
+      let user = getusername(token)
       let {title, description, breed, species, image} = req.body;
 
       let newPost = await PostModel.create({

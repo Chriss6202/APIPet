@@ -6,3 +6,8 @@ exports.parseJwt = (token) => {
     }).join(''))
     return JSON.parse(jsonPayload);
     };
+
+exports.getusername = (token) => {
+    let user1 = parseJwt(token)
+    return user1.user.username
+}
