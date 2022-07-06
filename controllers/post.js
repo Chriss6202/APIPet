@@ -33,6 +33,7 @@ exports.Survey = async (req, res, next) => {
     let token = req.headers.authorization.replace('Bearer ', '');
     let _id = req.params.id
     let user = getusername(token)
+    let { fullname, work, number, email, reason} = req.body
 
     let survey = await SurveyModel.create({ fullname,
     work,
