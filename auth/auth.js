@@ -14,7 +14,7 @@ passport.use(
     async (token, done) => {
       try {
         const user = await UserModel.findOne(
-          { _id: token.user._id },
+          { _id: token.user._id, username: token.user.username },
           "-password"
         );
         return done(null, user);
