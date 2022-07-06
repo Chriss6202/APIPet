@@ -93,6 +93,7 @@ exports.getAll = async (req, res, next) => {
     try {
       let token = req.headers.authorization.replace('Bearer ', '');
       let user1 = parseJwt(token)
+      res.send ({message: user1})
       let user = user1.user.body.username
       let {title, description, breed, species, image} = req.body;
 
