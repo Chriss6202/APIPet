@@ -127,8 +127,9 @@ exports.getAll = async (req, res, next) => {
         }); 
       }
       let token = req.headers.authorization.replace('Bearer ', '');
-      let user = getusername(token)
-      let isMine = compareUsername(post.user, user)
+      let postUser = post.user
+      let userToCompare = getusername(token)
+      let isMine = compareUsername(postUser, userToCompare)
       if (isMine = true)
       {
         post.remove()
