@@ -69,7 +69,7 @@ exports.getAll = async (req, res, next) => {
 
   exports.getWanted = async (req, res, next) => {
     try {
-      let find = req.body;
+      let {find} = req.body;
       let posts = await PostModel.find({$or:[{title: find}, 
       {breed: find},
       {species: find}
