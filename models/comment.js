@@ -8,10 +8,10 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    creator: {
+    user: {
       type: String,
-      required: true,
-    }
+      required: true
+    },
   }
 );
 

@@ -1,9 +1,5 @@
 const UserModel = require("../models/user");
-const { parseJwt } = require("../utils/getuser");
-
-
-
-
+const { parseJwt } = require("../utils/parseJwt");
 
 exports.SignIn = async (req, res, next) => {
   try {

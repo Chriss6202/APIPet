@@ -1,14 +1,19 @@
 const PostModel = require("../models/post");
 const CommentModel = require("../models/comment");
 const SurveyModel = require("../models/survey");
-const { getusername, parseJwt } = require("../utils/getuser");
+const { getusername, compareUsername } = require("../utils/usernameUtils");
 
 exports.Comment = async (req, res, next) => {
   try {
+    let token = req.headers.authorization.replace('Bearer ', '');
     let _id = req.params.id
+    let user = getusername(token)
     let {description} = req.body
 
-    let comment = await CommentModel.create({ description } )
+    let comment = await CommentModel.create({ 
+    description,
+    user
+    })
 
     let post = await PostModel.findById({_id})
 
@@ -25,14 +30,16 @@ exports.Comment = async (req, res, next) => {
 
 exports.Survey = async (req, res, next) => {
   try {
+    let token = req.headers.authorization.replace('Bearer ', '');
     let _id = req.params.id
-    let {fullname, work, number, email, reason} = req.body
+    let user = getusername(token)
 
     let survey = await SurveyModel.create({ fullname,
     work,
     number,
     email,
-    reason
+    reason,
+    user
     })
 
     let post = await PostModel.findById({_id})
@@ -62,10 +69,10 @@ exports.getAll = async (req, res, next) => {
 
   exports.getWanted = async (req, res, next) => {
     try {
-      let {findtitle, findbreed, findspecies} = req.body;
-      let posts = await PostModel.find({$or:[{title: findtitle}, 
-      {breed: findbreed},
-      {species: findspecies}
+      let find = req.body;
+      let posts = await PostModel.find({$or:[{title: find}, 
+      {breed: find},
+      {species: find}
       ]});
       res.send({
         count: posts.length,
@@ -78,8 +85,9 @@ exports.getAll = async (req, res, next) => {
 
   exports.getOwned = async (req, res, next) => {
     try {
-      let {ltitle, lbreed} = req.body
-      let posts = await PostModel.find({$or:[{title: ltitle}, {breed: lbreed}]});
+      let token = req.headers.authorization.replace('Bearer ', '');
+      let user = getusername(token)
+      let posts = await PostModel.find({user});
       res.send({
         count: posts.length,
         posts,
@@ -92,8 +100,7 @@ exports.getAll = async (req, res, next) => {
   exports.createPost = async (req, res, next) => {
     try {
       let token = req.headers.authorization.replace('Bearer ', '');
-      let getuser = parseJwt(token)
-      let user = getusername(getuser)
+      let user = getusername(token)
       let {title, description, breed, species, image} = req.body;
 
       let newPost = await PostModel.create({
@@ -113,16 +120,28 @@ exports.getAll = async (req, res, next) => {
   exports.deletePost = async (req, res, next) => {
     try {
       let _id = req.params.id;
-      let { deletedCount } = await PostModel.findByIdAndRemove({ _id });
-      res.send({
-        message: deletedCount
-      })
-      res.send({
-        message: "Succesfully deleted",
-      });
-      res.status(400).send({
-        message: "cannot delete the post, maybe has been deleted before",
-      });    
+      let post = await PostModel.findById ({ _id })
+      if (!post) {
+        res.status(400).send({
+          message: "Post hasn't been found",
+        }); 
+      }
+      let token = req.headers.authorization.replace('Bearer ', '');
+      let user = getusername(token)
+      let isMine = compareUsername(post.user, user)
+      if (isMine = true)
+      {
+        post.remove()
+        res.send({
+          message: "Succesfully deleted",
+        });
+      }
+      else
+      {
+        res.status(400).send({
+          message: "You can't delete post that aren't yours",
+        }); 
+      }
     }catch (err) {
       next(err);
     }
