@@ -90,8 +90,9 @@ exports.getAll = async (req, res, next) => {
 
   exports.createPost = async (req, res, next) => {
     try {
-      let hi = req.headers.authorization
-      res.send({message: hi}) 
+      
+      
+
       let {title, description, breed, species, image} = req.body;
       let favorite = false;
       let newPost = await PostModel.create({
