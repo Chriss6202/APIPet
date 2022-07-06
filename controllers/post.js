@@ -130,9 +130,7 @@ exports.getAll = async (req, res, next) => {
       let postUser = post.user
       let userToCompare = getusername(token)
       let isMine = compareUsername(postUser, userToCompare)
-      res.send ({ Postuser: postUser, userToCompare: userToCompare, isMine: isMine})
-      if (isMine = true)
-
+      if (isMine == true)
       {
         post.remove()
         res.send({
