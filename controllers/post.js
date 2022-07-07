@@ -103,8 +103,10 @@ exports.getAll = async (req, res, next) => {
       let token = req.headers.authorization.replace('Bearer ', '');
       let user = getusername(token)
       let posts = await PostModel.find({favorite: user});
-      res.send({posts})
-      
+      res.send({ 
+        count: posts.length,
+        posts
+      });
     } catch (err) {
       next(err);
     }
@@ -116,7 +118,7 @@ exports.getAll = async (req, res, next) => {
       let user = getusername(token)
       let {title, description, breed, species, image} = req.body;
 
-      let newPost = await PostModel.create({
+      let posts = await PostModel.create({
         title,
         description,
         breed,
@@ -124,7 +126,7 @@ exports.getAll = async (req, res, next) => {
         image,
         user
       });
-      res.send({ newPost });
+      res.send({ posts });
     } catch (err) {
       next(err);
     }
